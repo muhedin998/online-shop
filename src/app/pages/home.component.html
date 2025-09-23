@@ -1,0 +1,96 @@
+<!-- Filters -->
+<section class="mb-4">
+  <div class="flex gap-2 overflow-x-auto pb-1">
+    <ng-container *ngFor="let f of ['Sve','Ulja','Balzami','Posle brijanja','Pre brijanja','Šamponi','Pasta','Alat']">
+      <button (click)="selectedFilter.set(f)"
+              class="px-3 py-1.5 rounded-full text-sm border transition whitespace-nowrap"
+              [ngClass]="selectedFilter() === f ? 'bg-brand-600 text-white border-transparent' : 'bg-gray-100 border-gray-300 hover:bg-gray-200'">
+        {{ f }}
+      </button>
+    </ng-container>
+  </div>
+  </section>
+
+  <section>
+    <h3 class="font-semibold text-lg mb-3">Najprodavanije</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <app-product-card
+        *ngFor="let p of visible()"
+        [product]="p"
+        [isFavorite]="isFav(p.id)"
+        (add)="addToCart($event)"
+        (toggleFavorite)="toggleFav($event)"
+        (view)="openDetail($event)">
+      </app-product-card>
+    </div>
+    <div *ngIf="!visible().length" class="mt-6 text-center text-gray-500">
+      Nema rezultata.
+    </div>
+  </section>
+
+  <!-- Product Detail Modal -->
+  <div *ngIf="selected" class="fixed inset-0 z-50 flex items-center justify-center">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" (click)="closeDetail()"></div>
+
+    <!-- Sheet/Modal -->
+    <div class="relative w-full sm:max-w-lg mx-4 bg-white rounded-2xl shadow-xl animate__animated animate__fadeInUp overflow-hidden max-h-[90vh] flex flex-col" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <!-- Close button -->
+      <button (click)="closeDetail()" class="absolute top-3 right-3 z-10 rounded-full bg-black/70 text-white p-2 hover:bg-black/80" aria-label="Zatvori detalje">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M6.225 4.811a1 1 0 0 1 1.414 0L12 9.172l4.361-4.361a1 1 0 1 1 1.414 1.414L13.414 10.586l4.361 4.361a1 1 0 0 1-1.414 1.414L12 12l-4.361 4.361a1 1 0 0 1-1.414-1.414l4.361-4.361-4.361-4.361a1 1 0 0 1 0-1.414Z"/></svg>
+      </button>
+
+      <!-- Gallery -->
+      <div class="relative">
+        <div class="overflow-hidden" (pointerdown)="onPointerDown($event)" (pointermove)="onPointerMove($event)" (pointerup)="onPointerUp($event)" (pointercancel)="onPointerUp($event)">
+          <div class="flex" [style.transform]="'translateX(calc(-' + (currentIndex * 100) + '% + ' + (dragging ? deltaX : 0) + 'px))'" [style.transition]="dragging ? 'none' : 'transform 0.3s ease-out'">
+            <ng-container *ngFor="let img of gallery; index as i">
+              <div class="min-w-full relative">
+                <img [src]="img" [alt]="selected?.name + ' slika ' + (i+1)" class="h-72 w-full object-cover bg-gray-100" (error)="onImgError($event)" />
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Nav arrows -->
+        <button (click)="$event.stopPropagation(); prev()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+        </button>
+        <button (click)="$event.stopPropagation(); next()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+        </button>
+
+        <!-- Dots -->
+        <div class="absolute bottom-2 inset-x-0 flex justify-center gap-1">
+          <button
+            *ngFor="let _ of gallery; index as i"
+            (click)="go(i)"
+            class="h-1.5 rounded-full transition-all"
+            [ngClass]="{ 'bg-white': i === currentIndex, 'bg-white/50': i !== currentIndex }"
+            [style.width.px]="i === currentIndex ? 16 : 6"
+            [attr.aria-label]="'Idi na sliku ' + (i + 1)">
+          </button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="p-4">
+        <h3 id="detail-title" class="text-lg font-bold text-gray-900">{{ selected?.name }}</h3>
+        <div class="mt-1 flex items-center justify-between">
+          <div class="text-brand-700 text-xl font-extrabold">{{ selected?.price | currency:'RSD':'symbol':'1.0-0':'sr-RS' }}</div>
+          <div *ngIf="selected?.volume" class="text-xs text-gray-500">{{ selected?.volume }}</div>
+        </div>
+        <div *ngIf="selected?.tags?.length" class="mt-2 flex flex-wrap gap-1">
+          <span *ngFor="let t of selected?.tags" class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700">#{{ t }}</span>
+        </div>
+        <p class="mt-3 text-sm text-gray-700 whitespace-pre-line">{{ selected?.longDescription || selected?.description }}</p>
+
+        <app-review-form [productId]="selected?.id"></app-review-form>
+
+        <div class="mt-4 flex items-center gap-3">
+          <button (click)="addToCart(selected!)" class="flex-1 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold active:scale-95 transition">Dodaj u korpu</button>
+          <button (click)="closeDetail()" class="px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium">Zatvori</button>
+        </div>
+      </div>
+    </div>
+  </div>

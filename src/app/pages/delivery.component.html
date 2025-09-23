@@ -1,0 +1,27 @@
+<h2 class="text-xl font-bold mb-4">Dostava (plaćanje pouzećem)</h2>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+  <div class="lg:col-span-2 space-y-4">
+    <section class="bg-white p-4 rounded-xl shadow-sm animate__animated animate__fadeInUp">
+      <h3 class="font-semibold mb-3">Podaci za isporuku</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <input placeholder="Ime i prezime" class="w-full rounded-lg border p-2" />
+        <input placeholder="Telefon" class="w-full rounded-lg border p-2" />
+        <input placeholder="Adresa" class="w-full rounded-lg border p-2 sm:col-span-2" />
+        <input placeholder="Grad" class="w-full rounded-lg border p-2" />
+        <input placeholder="Poštanski broj" class="w-full rounded-lg border p-2" />
+        <input placeholder="Napomena za kurira (opciono)" class="w-full rounded-lg border p-2 sm:col-span-2" />
+      </div>
+    </section>
+  </div>
+
+  <aside class="bg-white p-4 rounded-xl shadow-sm h-fit animate__animated animate__fadeIn">
+    <h3 class="font-semibold mb-3">Sažetak</h3>
+    <div class="space-y-2 text-sm">
+      <div class="flex justify-between"><span>Međuzbir</span><span>{{ cart.totalPrice() | currency:'RSD':'symbol':'1.0-0':'sr-RS' }}</span></div>
+      <div class="flex justify-between"><span>Isporuka</span><span>Besplatna</span></div>
+    </div>
+    <button (click)="placeOrder()" class="mt-4 w-full px-4 py-3 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold active:scale-95 transition">Potvrdi porudžbinu</button>
+    <a routerLink="/korpa" class="block text-center mt-2 text-sm text-gray-500 hover:text-gray-700">Nazad u korpu</a>
+  </aside>
+</div>
+

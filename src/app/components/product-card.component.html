@@ -1,0 +1,32 @@
+<article (click)="view.emit(product)" class="group overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-glow transition-all animate__animated animate__fadeInUp cursor-pointer">
+  <div class="relative">
+    <img [src]="product.imageUrl" [alt]="product.name" loading="lazy"
+         (error)="onImgError($event)"
+         class="h-48 w-full object-cover group-hover:scale-105 transition-transform duration-500 bg-gray-100" />
+
+    <button (click)="$event.stopPropagation(); toggleFavorite.emit(product.id)" [attr.aria-label]="isFavorite ? 'Ukloni iz omiljenih' : 'Dodaj u omiljene'"
+      class="absolute top-3 right-3 rounded-full p-2 bg-white/80 hover:bg-white shadow-md transition">
+      <svg class="w-5 h-5" [ngClass]="{'text-brand-500': isFavorite, 'text-gray-400': !isFavorite}" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.645 20.91l-.007-.003-.026-.012a15.247 15.247 0 01-.41-.2 25.18 25.18 0 01-4.17-2.703C4.688 15.798 2.25 13.235 2.25 10.5 2.25 8.014 4.264 6 6.75 6c1.35 0 2.613.586 3.5 1.52A4.75 4.75 0 0117.25 6c2.486 0 4.5 2.014 4.5 4.5 0 2.736-2.438 5.299-4.782 7.495a25.18 25.18 0 01-4.17 2.703 15.247 15.247 0 01-.41.2l-.026.012-.007.003-.003.001a.75.75 0 01-.597 0l-.003-.001z"/>
+      </svg>
+    </button>
+
+    <div *ngIf="product.rating" class="absolute bottom-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur">
+      ★ {{ product.rating!.toFixed(1) }}
+    </div>
+  </div>
+  <div class="p-4">
+    <h3 class="font-semibold text-gray-900 line-clamp-1">{{ product.name }}</h3>
+    <p class="text-sm text-gray-500 line-clamp-2 mt-1">{{ product.description }}</p>
+    <div class="flex items-center justify-between mt-4">
+      <div>
+        <div class="text-lg font-bold text-brand-700">{{ product.price | currency:'RSD':'symbol':'1.0-0':'sr-RS' }}</div>
+        <div *ngIf="product.volume" class="text-xs text-gray-400">{{ product.volume }}</div>
+      </div>
+      <button (click)="$event.stopPropagation(); add.emit(product)" class="px-3 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-medium active:scale-95 transition">
+        Dodaj u korpu
+      </button>
+    </div>
+  </div>
+</article>
+

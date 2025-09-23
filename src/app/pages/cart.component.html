@@ -1,0 +1,52 @@
+<h2 class="text-xl font-bold mb-4">Vaša korpa</h2>
+<ng-container *ngIf="cart.items().length; else empty">
+  <div class="space-y-3">
+    <div *ngFor="let it of cart.items()" class="bg-white rounded-xl p-3 shadow-sm animate__animated animate__fadeInUp">
+      <div class="flex gap-3">
+        <img [src]="it.product.imageUrl" [alt]="it.product.name" loading="lazy" (error)="onImgError($event)" class="w-20 h-20 object-cover rounded-lg bg-gray-100" />
+        <div class="flex-1">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 class="font-semibold">{{ it.product.name }}</h3>
+              <p class="text-sm text-gray-500 line-clamp-2">{{ it.product.description }}</p>
+            </div>
+            <button (click)="cart.remove(it.product.id)" class="text-gray-400 hover:text-red-500 transition" aria-label="Ukloni iz korpe">
+              ✕
+            </button>
+          </div>
+          <div class="mt-2 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <button class="px-2 py-1 rounded bg-gray-100 hover:bg-gray-200" (click)="dec(it.product.id, it.quantity)">-</button>
+              <input type="number" class="w-16 text-center border rounded p-1" [value]="it.quantity" (change)="onQtyChange(it.product.id, $any($event.target).value)" />
+              <button class="px-2 py-1 rounded bg-gray-100 hover:bg-gray-200" (click)="inc(it.product.id, it.quantity)">+</button>
+            </div>
+            <div class="font-semibold">{{ (it.product.price * it.quantity) | currency:'RSD':'symbol':'1.0-0':'sr-RS' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5 bg-white rounded-xl p-4 shadow-sm">
+    <div class="flex items-center justify-between">
+      <span class="text-gray-500">Međuzbir</span>
+      <span class="font-semibold">{{ cart.totalPrice() | currency:'RSD':'symbol':'1.0-0':'sr-RS' }}</span>
+    </div>
+    <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <a [routerLink]="['/placanje']" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
+        Plati odmah
+      </a>
+      <a [routerLink]="['/dostava']" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-semibold transition">
+        Plaćanje pouzećem
+      </a>
+      <button (click)="cart.clear()" class="px-4 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 font-medium">Isprazni korpu</button>
+    </div>
+  </div>
+</ng-container>
+<ng-template #empty>
+  <div class="text-center text-gray-500 p-10 rounded-xl bg-white shadow-sm animate__animated animate__fadeIn">
+    <p class="mb-1 font-medium">Vaša korpa je prazna</p>
+    <p class="text-sm">Dodajte proizvode kako biste započeli kupovinu.</p>
+  </div>
+</ng-template>
+
