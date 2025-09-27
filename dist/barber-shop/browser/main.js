@@ -37426,10 +37426,10 @@ var AppComponent = class _AppComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 16 });
 })();
 
-// src/app/components/product-card.component.ts
+// src/app/components/product-card/product-card.component.ts
 var _c02 = (a0, a1) => ({ "text-brand-500": a0, "text-gray-400": a1 });
 var _c1 = (a0) => [a0, "RSD", "symbol", "1.0-0", "sr-RS"];
 function ProductCardComponent_div_6_Template(rf, ctx) {
@@ -37540,7 +37540,7 @@ var ProductCardComponent = class _ProductCardComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProductCardComponent, { className: "ProductCardComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProductCardComponent, { className: "ProductCardComponent", filePath: "src/app/components/product-card/product-card.component.ts", lineNumber: 12 });
 })();
 
 // src/app/data/mock-products.ts
@@ -43925,10 +43925,10 @@ var ReviewFormComponent = class _ReviewFormComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ReviewFormComponent, { className: "ReviewFormComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ReviewFormComponent, { className: "ReviewFormComponent", filePath: "src/app/components/review-form/review-form.component.ts", lineNumber: 12 });
 })();
 
-// src/app/pages/home.component.ts
+// src/app/pages/home/home.component.ts
 var _c04 = () => ["Sve", "Ulja", "Balzami", "Posle brijanja", "Pre brijanja", "\u0160amponi", "Pasta", "Alat"];
 var _c12 = (a0) => [a0, "RSD", "symbol", "1.0-0", "sr-RS"];
 var _c2 = (a0, a1) => ({ "bg-white": a0, "bg-white/50": a1 });
@@ -44333,10 +44333,10 @@ var HomeComponent = class _HomeComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent", filePath: "src/app/pages/home/home.component.ts", lineNumber: 19 });
 })();
 
-// src/app/pages/favorites.component.ts
+// src/app/pages/favorites/favorites.component.ts
 function FavoritesComponent_ng_container_2_app_product_card_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -44415,10 +44415,10 @@ var FavoritesComponent = class _FavoritesComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(FavoritesComponent, { className: "FavoritesComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(FavoritesComponent, { className: "FavoritesComponent", filePath: "src/app/pages/favorites/favorites.component.ts", lineNumber: 15 });
 })();
 
-// src/app/pages/cart.component.ts
+// src/app/pages/cart/cart.component.ts
 var _c05 = (a0) => [a0, "RSD", "symbol", "1.0-0", "sr-RS"];
 var _c13 = () => ["/placanje"];
 var _c22 = () => ["/dostava"];
@@ -44582,7 +44582,7 @@ var CartComponent = class _CartComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CartComponent, { className: "CartComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CartComponent, { className: "CartComponent", filePath: "src/app/pages/cart/cart.component.ts", lineNumber: 13 });
 })();
 
 // src/app/services/auth.service.ts
@@ -44646,7 +44646,7 @@ var AuthService = class _AuthService {
   }
 };
 
-// src/app/pages/checkout.component.ts
+// src/app/pages/checkout/checkout.component.ts
 var _c06 = (a0) => [a0, "RSD", "symbol", "1.0-0", "sr-RS"];
 function CheckoutComponent_div_21_Template(rf, ctx) {
   if (rf & 1) {
@@ -44764,10 +44764,10 @@ var CheckoutComponent = class _CheckoutComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CheckoutComponent, { className: "CheckoutComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CheckoutComponent, { className: "CheckoutComponent", filePath: "src/app/pages/checkout/checkout.component.ts", lineNumber: 14 });
 })();
 
-// src/app/pages/payment.component.ts
+// src/app/pages/payment/payment.component.ts
 var _c07 = (a0) => [a0, "RSD", "symbol", "1.0-0", "sr-RS"];
 var PaymentComponent = class _PaymentComponent {
   constructor() {
@@ -44867,10 +44867,10 @@ var PaymentComponent = class _PaymentComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PaymentComponent, { className: "PaymentComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PaymentComponent, { className: "PaymentComponent", filePath: "src/app/pages/payment/payment.component.ts", lineNumber: 13 });
 })();
 
-// src/app/pages/delivery.component.ts
+// src/app/pages/delivery/delivery.component.ts
 var _c08 = (a0) => [a0, "RSD", "symbol", "1.0-0", "sr-RS"];
 var DeliveryComponent = class _DeliveryComponent {
   constructor() {
@@ -44931,10 +44931,10 @@ var DeliveryComponent = class _DeliveryComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DeliveryComponent, { className: "DeliveryComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DeliveryComponent, { className: "DeliveryComponent", filePath: "src/app/pages/delivery/delivery.component.ts", lineNumber: 13 });
 })();
 
-// src/app/pages/profile.component.ts
+// src/app/pages/profile/profile.component.ts
 function ProfileComponent_div_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -45075,10 +45075,10 @@ var ProfileComponent = class _ProfileComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProfileComponent, { className: "ProfileComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProfileComponent, { className: "ProfileComponent", filePath: "src/app/pages/profile/profile.component.ts", lineNumber: 14 });
 })();
 
-// src/app/pages/register.component.ts
+// src/app/pages/register/register.component.ts
 function RegisterComponent_div_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
@@ -45170,7 +45170,7 @@ var RegisterComponent = class _RegisterComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RegisterComponent, { className: "RegisterComponent" });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RegisterComponent, { className: "RegisterComponent", filePath: "src/app/pages/register/register.component.ts", lineNumber: 14 });
 })();
 
 // src/app/app.routes.ts

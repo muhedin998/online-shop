@@ -65,6 +65,10 @@ typings/
 .yarn/
 .pnp.*
 
-# Yarn 2+ (Berry)
-.yarn/
-.pnp.*
+# Editor swap/backup files
+*.swp
+*.swo
+*.swc
+*~
+*.orig
+.directory

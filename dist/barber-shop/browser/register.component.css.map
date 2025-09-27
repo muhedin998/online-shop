@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "sources": ["src/app/pages/register.component.css"],
+  "sources": ["src/app/pages/register/register.component.css"],
   "sourcesContent": [".register-card { }\n\n"],
   "mappings": ";AAAA,CAAC;AAAgB;",
   "names": []
