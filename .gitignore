@@ -64,3 +64,7 @@ typings/
 # Yarn 2+ (Berry)
 .yarn/
 .pnp.*
+
+# Yarn 2+ (Berry)
+.yarn/
+.pnp.*

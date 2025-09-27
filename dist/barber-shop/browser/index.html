@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>BarberShop | Ulja i nega</title>
+    <base href="/"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Tailwind CDN with custom theme -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              // Modern Minimalist palette
+              // Brand: subtle sage green scale
+              brand: {
+                50: '#f6fbf8',
+                100: '#eaf5ef',
+                200: '#d5ebdf',
+                300: '#b8dcc9',
+                400: '#97cbb1',
+                500: '#7dbb9b',
+                600: '#6ba292', // primary
+                700: '#5a8a7c',
+                800: '#4a7167',
+                900: '#3d5d56'
+              },
+              // Accent: grayscale/black with very light gray at 400
+              accent: {
+                400: '#D3D3D3', // very light gray
+                500: '#A8A8A8',
+                600: '#6B7280',
+                700: '#374151',
+                800: '#111827',
+                900: '#000000' // black
+              },
+              // Living green detail if needed elsewhere
+              living: {
+                600: '#2E8B57'
+              }
+            },
+            boxShadow: {
+              glow: '0 10px 25px -5px rgba(107,162,146,0.25), 0 8px 10px -6px rgba(0,0,0,0.15)'
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-6px)' }
+              }
+            },
+            animation: {
+              float: 'float 4s ease-in-out infinite'
+            }
+          }
+        }
+      };
+    </script>
+
+    <!-- Animate.css for delightful entry animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-VX8tMZQb2uGk0f1JwQkY2Q1+8j7yWk6v7vH0GPyF0pQq5X1cRkq0bR9bq1K3LC9Z2mI2zVVF9lYxZ2t7Q9M5Vg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="icon" href="favicon.ico"/>
+  <link rel="stylesheet" href="styles.css"></head>
+  <body class="bg-gray-50 text-gray-900">
+    <app-root></app-root>
+  <script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script></body>
+  <noscript>Please enable JavaScript to view this application.</noscript>
+</html>

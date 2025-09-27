@@ -1,0 +1,18 @@
+<div class="max-w-md mx-auto">
+  <h2 class="text-xl font-bold mb-4">Registracija</h2>
+  <div class="bg-white p-4 rounded-xl shadow-sm animate__animated animate__fadeIn">
+    <div class="space-y-2">
+      <input placeholder="Ime i prezime" class="w-full rounded-lg border p-2"
+             [ngModel]="name()" (ngModelChange)="name.set($event)" />
+      <input type="email" placeholder="Email" class="w-full rounded-lg border p-2"
+             [ngModel]="email()" (ngModelChange)="email.set($event)" />
+      <input type="tel" placeholder="Telefon (opciono)" class="w-full rounded-lg border p-2"
+             [ngModel]="phone()" (ngModelChange)="phone.set($event)" />
+      <input type="password" placeholder="Lozinka" class="w-full rounded-lg border p-2"
+             [ngModel]="password()" (ngModelChange)="password.set($event)" />
+      <div *ngIf="error()" class="text-sm text-red-600">{{ error() }}</div>
+      <button (click)="register()" class="w-full px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold">Kreiraj nalog</button>
+      <a routerLink="/profil" class="block text-center text-sm text-gray-600 hover:text-gray-800">Već imate nalog? Prijavite se</a>
+    </div>
+  </div>
+</div>
