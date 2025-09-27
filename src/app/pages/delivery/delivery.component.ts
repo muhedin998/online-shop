@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../services/cart.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-delivery',

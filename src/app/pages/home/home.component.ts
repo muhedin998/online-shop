@@ -1,13 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // FormsModule no longer required here (used in review form)
-import { ProductCardComponent } from '../components/product-card.component';
-import { Product } from '../models/product';
-import { MOCK_PRODUCTS } from '../data/mock-products';
-import { CartService } from '../services/cart.service';
-import { FavoritesService } from '../services/favorites.service';
-import { SearchService } from '../services/search.service';
-import { ReviewFormComponent } from '../components/review-form/review-form.component';
+import { ProductCardComponent } from '../../components/product-card/product-card.component';
+import { Product } from '../../models/product';
+import { MOCK_PRODUCTS } from '../../data/mock-products';
+import { CartService } from '../../services/cart.service';
+import { FavoritesService } from '../../services/favorites.service';
+import { SearchService } from '../../services/search.service';
+import { ReviewFormComponent } from '../../components/review-form/review-form.component';
 
 @Component({
   selector: 'app-home',

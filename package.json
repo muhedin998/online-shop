@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "ng serve --open",
-    "build": "ng build",
-    "lint": "ng lint"
+    "start": "node ./node_modules/@angular/cli/bin/ng.js serve --open",
+    "build": "node ./node_modules/@angular/cli/bin/ng.js build",
+    "lint": "node ./node_modules/@angular/cli/bin/ng.js lint"
   },
   "dependencies": {
     "@angular/animations": "^17.3.7",
@@ -27,4 +27,3 @@
     "typescript": "~5.4.5"
   }
 }
-

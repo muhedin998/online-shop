@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../services/cart.service';
+import { CartService } from '../../services/cart.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-checkout',

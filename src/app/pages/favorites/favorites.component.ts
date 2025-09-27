@@ -1,9 +1,9 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FavoritesService } from '../services/favorites.service';
-import { MOCK_PRODUCTS } from '../data/mock-products';
-import { ProductCardComponent } from '../components/product-card.component';
-import { CartService } from '../services/cart.service';
+import { FavoritesService } from '../../services/favorites.service';
+import { MOCK_PRODUCTS } from '../../data/mock-products';
+import { ProductCardComponent } from '../../components/product-card/product-card.component';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-favorites',
