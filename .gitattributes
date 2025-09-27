@@ -1,0 +1,28 @@
+# Normalize line endings to avoid OS-specific diffs
+* text=auto
+
+# Force LF line endings for source and config
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+
+# Lockfile should be consistent across platforms
+package-lock.json text eol=lf
+
+# Treat images and other binaries as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+

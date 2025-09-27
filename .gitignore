@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+
+# Angular build outputs
+dist/
+tmp/
+out-tsc/
+coverage/
+
+# Angular CLI cache and local data
+.angular/
+
+# Env files (keep examples)
+.env
+.env.*
+!.env.example
+!.env.template
+
+# IDEs and editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.iml
+*.sublime-workspace
+*.sublime-project
+.history/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Prefer npm; ignore other lockfiles
+yarn.lock
+pnpm-lock.yaml
+
+# Caches and temp
+.cache/
+.parcel-cache/
+.sass-cache/
+.eslintcache
+.stylelintcache
+.tmp/
+
+# TypeScript incrementals
+*.tsbuildinfo
+
+# Misc
+libpeerconnection.log
+firebase-debug.log
+testem.log
+typings/
+
+# Yarn 2+ (Berry)
+.yarn/
+.pnp.*
