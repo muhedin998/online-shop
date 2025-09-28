@@ -8,6 +8,14 @@ export class AuthService {
 
   user = computed(() => this.u());
   isLoggedIn = computed(() => !!this.u());
+  // Simple admin detection: name 'ADMIN' or email 'admin@admin.com'
+  isAdmin = computed(() => {
+    const u = this.u();
+    if (!u) return false;
+    const name = (u.name || '').trim().toLowerCase();
+    const email = (u.email || '').trim().toLowerCase();
+    return name === 'admin' || email === 'admin@admin.com';
+  });
 
   login(email: string, _password: string) {
     const existing = this.load();
@@ -52,4 +60,3 @@ export class AuthService {
     }
   }
 }
-

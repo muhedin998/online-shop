@@ -1,0 +1,98 @@
+<div class="space-y-6">
+  <h2 class="text-xl font-bold">Admin panel</h2>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div class="bg-white rounded-xl p-4 shadow-sm">
+      <div class="text-sm text-gray-500">Sve porudžbine</div>
+      <div class="text-2xl font-semibold">{{ orders.orders().length }}</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 shadow-sm">
+      <div class="text-sm text-gray-500">Na čekanju (neisporučene)</div>
+      <div class="text-2xl font-semibold">{{ orders.pending().length }}</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 shadow-sm">
+      <div class="text-sm text-gray-500">Plaćene</div>
+      <div class="text-2xl font-semibold">{{ orders.paid().length }}</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 shadow-sm">
+      <div class="text-sm text-gray-500">Neplaćene</div>
+      <div class="text-2xl font-semibold">{{ orders.unpaid().length }}</div>
+    </div>
+  </div>
+
+  <!-- Orders list -->
+  <section class="bg-white rounded-xl shadow-sm">
+    <div class="p-4 border-b font-semibold">Porudžbine</div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead>
+        <tr class="text-left text-gray-600">
+          <th class="p-3">ID</th>
+          <th class="p-3">Kupac</th>
+          <th class="p-3">Vreme</th>
+          <th class="p-3">Ukupno</th>
+          <th class="p-3">Plaćeno</th>
+          <th class="p-3">Isporučeno</th>
+          <th class="p-3">Akcije</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let o of orders.orders()" class="border-t">
+          <td class="p-3 align-top font-mono text-xs">{{ o.id.slice(0,8) }}</td>
+          <td class="p-3 align-top">
+            <div class="font-medium">{{ o.user?.name || 'Gost' }}</div>
+            <div class="text-gray-500">{{ o.user?.email || '-' }}</div>
+          </td>
+          <td class="p-3 align-top">{{ o.createdAt | date:'short' }}</td>
+          <td class="p-3 align-top font-semibold">{{ o.total | currency:'RSD':'symbol':'1.0-0':'sr-RS' }}</td>
+          <td class="p-3 align-top">
+            <span class="px-2 py-0.5 rounded-full text-xs" [class]="o.paid ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-800'">
+              {{ o.paid ? 'Plaćeno' : 'Čeka uplatu' }}
+            </span>
+          </td>
+          <td class="p-3 align-top">
+            <span class="px-2 py-0.5 rounded-full text-xs" [class]="o.shipped ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'">
+              {{ o.shipped ? 'Isporučeno' : 'Na čekanju' }}
+            </span>
+          </td>
+          <td class="p-3 align-top">
+            <div class="flex gap-2">
+              <button (click)="orders.markPaid(o.id, !o.paid)" class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">
+                {{ o.paid ? 'Označi neplaćeno' : 'Označi plaćeno' }}
+              </button>
+              <button (click)="orders.markShipped(o.id, !o.shipped)" class="px-3 py-1.5 rounded-lg bg-brand-600 text-white hover:bg-brand-700">
+                {{ o.shipped ? 'Vrati u čekanju' : 'Označi isporučeno' }}
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="!orders.orders().length">
+          <td colspan="7" class="p-6 text-center text-gray-500">Nema porudžbina još uvek.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Stock management -->
+  <section class="bg-white rounded-xl shadow-sm">
+    <div class="p-4 border-b font-semibold">Stanje zaliha</div>
+    <div class="divide-y">
+      <div *ngFor="let p of products" class="p-4 flex items-center gap-4">
+        <img [src]="p.imageUrl" (error)="onImgError($event)" alt="" class="w-14 h-14 object-cover rounded-lg border" />
+        <div class="flex-1 min-w-0">
+          <div class="font-medium truncate">{{ p.name }}</div>
+          <div class="text-xs text-gray-500">#{{ p.id }}</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" class="w-24 rounded-lg border p-2" [placeholder]="stock.get(p.id) + ''"
+                 [ngModel]="editing()[p.id]" (ngModelChange)="setEdit(p.id, $event)" />
+          <button (click)="saveStock(p.id)" class="px-3 py-1.5 rounded-lg bg-brand-600 text-white hover:bg-brand-700">Sačuvaj</button>
+          <button (click)="clearEdit(p.id)" class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">Poništi</button>
+          <div class="text-sm text-gray-600">Na stanju: <span class="font-semibold">{{ stock.get(p.id) }}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

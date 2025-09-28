@@ -117,13 +117,13 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.8,
     tags: ['brijač', 'nerđajući-čelik'],
     imageUrl:
-      'https://images.unsplash.com/photo-1603660105961-27e9b8f6be60?q=80&w=1200&auto=format&fit=crop',
+      'https://www.barbers.rs/wp-content/uploads/2023/01/RACA1904-3.jpg',
     longDescription:
       'Težinski ujednačen i izdržljiv. Ovaj sigurni brijač od nerđajućeg čelika nudi klasično dvostruko sečenje sa odličnom kontrolom i minimalnom iritacijom.',
     images: [
-      'https://images.unsplash.com/photo-1603660105961-27e9b8f6be60?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1580130379624-1def43f5b34f?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1614605241662-0a3db59bd680?auto=format&fit=crop&w=1200&q=80'
+      'https://www.barbers.rs/wp-content/uploads/2023/01/RACA1904-3.jpg',
+      'https://www.barbers.rs/wp-content/uploads/2023/01/RACA1904-3.jpg',
+        'https://www.barbers.rs/wp-content/uploads/2023/01/RACA1904-3.jpg'
     ]
   },
   {

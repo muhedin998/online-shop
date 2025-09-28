@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CartService } from './services/cart.service';
 import { FavoritesService } from './services/favorites.service';
 import { SearchService } from './services/search.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent {
   private cart = inject(CartService);
   private favs = inject(FavoritesService);
   search = inject(SearchService);
+  auth = inject(AuthService);
 
   searchOpen = signal(false);
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;

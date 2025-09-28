@@ -7,6 +7,8 @@ import { PaymentComponent } from './pages/payment/payment.component';
 import { DeliveryComponent } from './pages/delivery/delivery.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { adminGuard } from './services/admin.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'BarberShop | Početna' },
@@ -19,5 +21,6 @@ export const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent, title: 'Pregled | BarberShop' },
   { path: 'profil', component: ProfileComponent, title: 'Profil | BarberShop' },
   { path: 'registracija', component: RegisterComponent, title: 'Registracija | BarberShop' },
+  { path: 'admin', component: AdminComponent, title: 'Admin | BarberShop', canMatch: [adminGuard] },
   { path: '**', redirectTo: '' }
 ];
