@@ -1,0 +1,12 @@
+# Reduce Docker build context and speed up builds
+node_modules
+dist
+.git
+.idea
+.angular
+.vscode
+npm-debug.log*
+Dockerfile*
+docker-compose*
+.DS_Store
+
