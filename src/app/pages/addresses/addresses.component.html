@@ -1,0 +1,38 @@
+<div class="max-w-3xl mx-auto">
+  <h2 class="text-xl font-bold mb-4">Adrese</h2>
+
+  <div *ngIf="loading()" class="text-gray-500">Učitavanje...</div>
+  <div *ngIf="error()" class="text-red-600">{{ error() }}</div>
+
+  <div class="bg-white p-4 rounded-xl shadow-sm mb-4">
+    <h3 class="font-semibold mb-3">Dodaj novu adresu</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <input class="border rounded p-2 w-full" placeholder="Ime i prezime*" [ngModel]="a().fullName" (ngModelChange)="update('fullName', $event)" />
+      <div class="text-xs text-red-600 sm:col-span-2" *ngIf="fieldErrors()['fullName']">{{ fieldErrors()['fullName'] }}</div>
+      <input class="border rounded p-2 w-full" placeholder="Telefon" [ngModel]="a().phone" (ngModelChange)="update('phone', $event)" />
+      <input class="border rounded p-2 w-full sm:col-span-2" placeholder="Adresa*" [ngModel]="a().addressLine1" (ngModelChange)="update('addressLine1', $event)" />
+      <div class="text-xs text-red-600 sm:col-span-2" *ngIf="fieldErrors()['addressLine1']">{{ fieldErrors()['addressLine1'] }}</div>
+      <input class="border rounded p-2 w-full sm:col-span-2" placeholder="Adresa 2" [ngModel]="a().addressLine2" (ngModelChange)="update('addressLine2', $event)" />
+      <input class="border rounded p-2 w-full" placeholder="Grad*" [ngModel]="a().city" (ngModelChange)="update('city', $event)" />
+      <div class="text-xs text-red-600" *ngIf="fieldErrors()['city']">{{ fieldErrors()['city'] }}</div>
+      <input class="border rounded p-2 w-full" placeholder="Poštanski broj*" [ngModel]="a().postalCode" (ngModelChange)="update('postalCode', $event)" />
+      <div class="text-xs text-red-600" *ngIf="fieldErrors()['postalCode']">{{ fieldErrors()['postalCode'] }}</div>
+      <input class="border rounded p-2 w-full" placeholder="Država (kod)*" [ngModel]="a().countryCode" (ngModelChange)="update('countryCode', $event)" />
+      <div class="text-xs text-red-600" *ngIf="fieldErrors()['countryCode']">{{ fieldErrors()['countryCode'] }}</div>
+      <input class="border rounded p-2 w-full" placeholder="Okrug/Regija" [ngModel]="a().state" (ngModelChange)="update('state', $event)" />
+      <input class="border rounded p-2 w-full" placeholder="Oznaka (npr. Home)" [ngModel]="a().label" (ngModelChange)="update('label', $event)" />
+    </div>
+    <div class="text-xs text-gray-600 mt-1" *ngIf="!valid()">Polja označena * su obavezna.</div>
+    <div class="text-xs text-red-600 mt-1" *ngIf="generalError()">{{ generalError() }}</div>
+    <button (click)="add()" class="mt-3 px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold">Sačuvaj adresu</button>
+  </div>
+
+  <div class="space-y-2">
+    <div *ngFor="let ad of addresses()" class="bg-white p-4 rounded-xl shadow-sm">
+      <div class="font-semibold">{{ ad.fullName }}</div>
+      <div class="text-sm text-gray-600">{{ ad.addressLine1 }}<span *ngIf="ad.addressLine2">, {{ ad.addressLine2 }}</span></div>
+      <div class="text-sm text-gray-600">{{ ad.city }} {{ ad.postalCode }}, {{ ad.countryCode }}</div>
+      <div class="text-xs text-gray-500" *ngIf="ad.phone">Telefon: {{ ad.phone }}</div>
+    </div>
+  </div>
+</div>

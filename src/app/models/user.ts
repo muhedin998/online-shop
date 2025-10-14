@@ -1,5 +1,7 @@
 export interface User {
   id: string;
+  // Optional backend numeric id when authenticated against API
+  backendId?: number;
   name: string;
   email: string;
   phone?: string;
@@ -7,4 +9,3 @@ export interface User {
   city?: string;
   postalCode?: string;
 }
-

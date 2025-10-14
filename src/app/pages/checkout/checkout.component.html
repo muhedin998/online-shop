@@ -3,13 +3,54 @@
   <div class="lg:col-span-2 space-y-4">
     <!-- Address -->
     <section class="bg-white p-4 rounded-xl shadow-sm animate__animated animate__fadeInUp">
-      <h3 class="font-semibold mb-3">Podaci za isporuku</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <input placeholder="Ime i prezime" class="w-full rounded-lg border p-2" />
-        <input placeholder="Telefon" class="w-full rounded-lg border p-2" />
-        <input placeholder="Adresa" class="w-full rounded-lg border p-2 sm:col-span-2" />
-        <input placeholder="Grad" class="w-full rounded-lg border p-2" />
-        <input placeholder="Poštanski broj" class="w-full rounded-lg border p-2" />
+      <h3 class="font-semibold mb-3">Adresa za isporuku</h3>
+
+      <!-- Existing addresses -->
+      <div *ngIf="addresses().length" class="space-y-2 mb-3">
+        <div class="text-sm text-gray-600">Odaberite adresu ili unesite novu:</div>
+        <label *ngFor="let a of addresses()" class="block border rounded-lg p-3 cursor-pointer">
+          <input type="radio" name="addr" class="mr-2"
+                 [checked]="selectedAddressId()===a.id" (change)="selectedAddressId.set(a.id!); useNewAddress.set(false)" />
+          <span class="font-medium">{{ a.fullName }}</span>
+          <div class="text-sm text-gray-600">
+            {{ a.addressLine1 }}<span *ngIf="a.addressLine2">, {{ a.addressLine2 }}</span>, {{ a.city }} {{ a.postalCode }}, {{ a.countryCode }}
+          </div>
+          <div class="text-xs text-gray-500" *ngIf="a.phone">Telefon: {{ a.phone }}</div>
+        </label>
+      </div>
+
+      <div class="flex items-center gap-2 mb-2">
+        <input id="useNew" type="checkbox" [checked]="useNewAddress()" (change)="onUseNewToggle($any($event.target).checked)" />
+        <label for="useNew">Unesi novu adresu</label>
+      </div>
+
+      <!-- New address form -->
+      <div *ngIf="useNewAddress()" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <input class="border rounded p-2 w-full" placeholder="Ime i prezime*"
+               [ngModel]="newAddress().fullName" (ngModelChange)="updateNew('fullName', $event)" />
+        <div class="text-xs text-red-600 sm:col-span-2" *ngIf="addrErrors()['fullName']">{{ addrErrors()['fullName'] }}</div>
+        <input class="border rounded p-2 w-full" placeholder="Telefon"
+               [ngModel]="newAddress().phone" (ngModelChange)="updateNew('phone', $event)" />
+        <input class="border rounded p-2 w-full sm:col-span-2" placeholder="Adresa*"
+               [ngModel]="newAddress().addressLine1" (ngModelChange)="updateNew('addressLine1', $event)" />
+        <div class="text-xs text-red-600 sm:col-span-2" *ngIf="addrErrors()['addressLine1']">{{ addrErrors()['addressLine1'] }}</div>
+        <input class="border rounded p-2 w-full sm:col-span-2" placeholder="Adresa 2"
+               [ngModel]="newAddress().addressLine2" (ngModelChange)="updateNew('addressLine2', $event)" />
+        <input class="border rounded p-2 w-full" placeholder="Grad*"
+               [ngModel]="newAddress().city" (ngModelChange)="updateNew('city', $event)" />
+        <div class="text-xs text-red-600" *ngIf="addrErrors()['city']">{{ addrErrors()['city'] }}</div>
+        <input class="border rounded p-2 w-full" placeholder="Država (kod)*"
+               [ngModel]="newAddress().countryCode" (ngModelChange)="updateNew('countryCode', $event)" />
+        <div class="text-xs text-red-600" *ngIf="addrErrors()['countryCode']">{{ addrErrors()['countryCode'] }}</div>
+        <input class="border rounded p-2 w-full" placeholder="Poštanski broj*"
+               [ngModel]="newAddress().postalCode" (ngModelChange)="updateNew('postalCode', $event)" />
+        <div class="text-xs text-red-600" *ngIf="addrErrors()['postalCode']">{{ addrErrors()['postalCode'] }}</div>
+        <input class="border rounded p-2 w-full" placeholder="Okrug/Regija"
+               [ngModel]="newAddress().state" (ngModelChange)="updateNew('state', $event)" />
+        <input class="border rounded p-2 w-full" placeholder="Oznaka (npr. Home)"
+               [ngModel]="newAddress().label" (ngModelChange)="updateNew('label', $event)" />
+        <div class="sm:col-span-2 text-xs text-gray-600" *ngIf="!requiredValid()">Polja označena * su obavezna.</div>
+        <div class="sm:col-span-2 text-xs text-red-600" *ngIf="generalError()">{{ generalError() }}</div>
       </div>
     </section>
 

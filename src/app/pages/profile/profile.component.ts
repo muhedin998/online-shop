@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { getGeneralMessage } from '../../utils/api-error';
 
 @Component({
   selector: 'app-profile',
@@ -15,16 +16,16 @@ export class ProfileComponent {
   auth = inject(AuthService);
   private router = inject(Router);
 
-  email = signal('');
+  username = signal('');
   password = signal('');
   error = signal('');
 
   user = computed(() => this.auth.user());
 
-  login() {
-    const ok = this.auth.login(this.email().trim(), this.password());
-    if (!ok) {
-      this.error.set('Neispravni podaci. Pokušajte ponovo.');
+  async login() {
+    const res = await this.auth.loginBackend(this.username().trim(), this.password());
+    if (!res.ok) {
+      this.error.set(getGeneralMessage(res.error, 'Neispravni podaci. Pokušajte ponovo.'));
       return;
     }
     const nav = this.router.parseUrl(this.router.url);

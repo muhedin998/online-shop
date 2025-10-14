@@ -1,18 +1,22 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 // FormsModule no longer required here (used in review form)
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { Product } from '../../models/product';
-import { MOCK_PRODUCTS } from '../../data/mock-products';
 import { CartService } from '../../services/cart.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { SearchService } from '../../services/search.service';
 import { ReviewFormComponent } from '../../components/review-form/review-form.component';
+import { ProductsService } from '../../services/products.service';
+import { CategoriesApiService } from '../../api/categories.api';
+import { Page, ProductCategoryDto, ProductDto } from '../../api/models/product.dto';
+import { ProductsApiService } from '../../api/products.api';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent, ReviewFormComponent],
+  imports: [CommonModule, FormsModule, ProductCardComponent, ReviewFormComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -20,19 +24,27 @@ export class HomeComponent {
   private cart = inject(CartService);
   private favs = inject(FavoritesService);
   search = inject(SearchService);
+  // Keep existing service for other consumers, but use API directly for paging
+  private productsSvc = inject(ProductsService);
+  private productsApi = inject(ProductsApiService);
+  private categoriesApi = inject(CategoriesApiService);
 
-  products = MOCK_PRODUCTS;
-  selectedFilter = signal<string>('Sve');
-  filtered = computed(() => {
-    const q = this.search.query().trim().toLowerCase();
-    if (!q) return this.products;
-    return this.products.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      (p.description?.toLowerCase().includes(q)) ||
-      (p.tags || []).some(t => t.toLowerCase().includes(q))
-    );
-  });
-  visible = computed(() => this.filtered().filter(p => this.matchesFilter(p)));
+  products = signal<Product[]>([]);
+  categories = signal<ProductCategoryDto[]>([]);
+  selectedCategoryId = signal<number | null>(null);
+  pageIndex = signal<number>(0);
+  pageSize = signal<number>(12);
+  totalPages = signal<number>(0);
+  totalElements = signal<number>(0);
+  loading = signal<boolean>(false);
+  // Filters per backend reference
+  minPrice = signal<number | null>(null);
+  maxPrice = signal<number | null>(null);
+  inStock = signal<boolean | null>(null);
+  featured = signal<boolean | null>(null);
+  sortKey = signal<'name' | 'price' | 'id'>('name');
+  sortDir = signal<'asc' | 'desc'>('asc');
+  visible = computed(() => this.products());
   selected: Product | null = null;
   gallery: string[] = [];
   currentIndex = 0;
@@ -101,31 +113,77 @@ export class HomeComponent {
     }
   }
 
-  // Simple category filter logic
-  matchesFilter(p: Product): boolean {
-    const f = this.selectedFilter();
-    if (f === 'Sve') return true;
-    const name = p.name.toLowerCase();
-    const tags = (p.tags || []).map(t => t.toLowerCase());
-    switch (f) {
-      case 'Ulja':
-        return name.includes('ulje') || tags.includes('biljno') || tags.includes('lagano');
-      case 'Balzami':
-        return name.includes('balzam');
-      case 'Posle brijanja':
-        return name.includes('posle brijanja') || tags.includes('posle brijanja');
-      case 'Pre brijanja':
-        return name.includes('pre brijanja') || tags.includes('pre-brijanje');
-      case 'Šamponi':
-        return name.includes('šampon');
-      case 'Pasta':
-        return name.includes('pasta');
-      case 'Alat':
-        return name.includes('četka') || name.includes('brijač');
-      default:
-        return true;
-    }
+  constructor() {
+    // Load categories
+    this.categoriesApi.list().subscribe({ next: (cats) => this.categories.set(cats || []), error: () => {} });
+    // React to search, category selection, page, and size to call backend search
+    effect(() => {
+      const q = this.search.query().trim();
+      const cat = this.selectedCategoryId();
+      const page = this.pageIndex();
+      const size = this.pageSize();
+      const minPrice = this.minPrice();
+      const maxPrice = this.maxPrice();
+      const inStock = this.inStock();
+      const featured = this.featured();
+      const sort = `${this.sortKey()},${this.sortDir()}`;
+      this.loading.set(true);
+      this.productsApi.search({
+        searchText: q || undefined,
+        categoryId: cat || undefined,
+        minPrice: minPrice == null ? undefined : minPrice,
+        maxPrice: maxPrice == null ? undefined : maxPrice,
+        inStock: inStock == null ? undefined : inStock,
+        featured: featured == null ? undefined : featured,
+        sort,
+        page,
+        size,
+      }).subscribe({
+        next: (pg: Page<ProductDto>) => {
+          const content = Array.isArray(pg?.content) ? pg.content : [];
+          this.products.set(content.map(this.mapDtoToProduct));
+          this.totalPages.set(pg?.totalPages || 0);
+          this.totalElements.set(pg?.totalElements || 0);
+          this.loading.set(false);
+        },
+        error: () => { this.loading.set(false); },
+      });
+    });
   }
+
+  // Map backend ProductDto to UI Product
+  private mapDtoToProduct = (dto: ProductDto): Product => ({
+    id: dto.id,
+    name: dto.name,
+    description: dto.description || '',
+    price: dto.price,
+    imageUrl: dto.mainImageUrl || 'assets/placeholder-product.svg',
+    tags: dto.featured ? ['featured'] : [],
+    images: dto.carouselImageUrls && dto.carouselImageUrls.length ? dto.carouselImageUrls : undefined,
+    longDescription: dto.description,
+  });
+
+  prevPage() { if (this.pageIndex() > 0) this.pageIndex.set(this.pageIndex() - 1); }
+  nextPage() { if (this.pageIndex() + 1 < this.totalPages()) this.pageIndex.set(this.pageIndex() + 1); }
+  goPage(i: number) { if (i >= 0 && i < this.totalPages()) this.pageIndex.set(i); }
+  setSize(n: number) { this.pageSize.set(n); this.pageIndex.set(0); }
+
+  firstPage() { if (this.pageIndex() !== 0) this.pageIndex.set(0); }
+  lastPage() { const tp = this.totalPages(); if (tp > 0) this.pageIndex.set(tp - 1); }
+  jumpTo(pageOneBased: number) {
+    const p = Math.max(1, Math.min(pageOneBased, this.totalPages() || 1));
+    this.goPage(p - 1);
+  }
+
+  // Change any filter should reset to first page
+  setMinPrice(v: any) { const n = Number(v); this.minPrice.set(Number.isFinite(n) ? n : null); this.firstPage(); }
+  setMaxPrice(v: any) { const n = Number(v); this.maxPrice.set(Number.isFinite(n) ? n : null); this.firstPage(); }
+  setInStock(v: boolean) { this.inStock.set(v); this.firstPage(); }
+  clearInStock() { this.inStock.set(null); this.firstPage(); }
+  setFeatured(v: boolean) { this.featured.set(v); this.firstPage(); }
+  clearFeatured() { this.featured.set(null); this.firstPage(); }
+  setSortKey(k: 'name' | 'price' | 'id') { this.sortKey.set(k); this.firstPage(); }
+  setSortDir(d: 'asc' | 'desc') { this.sortDir.set(d); this.firstPage(); }
 
   onReviewSubmitted() {}
 }
