@@ -1,18 +1,74 @@
 <div class="max-w-md mx-auto">
-  <h2 class="text-xl font-bold mb-4">Registracija</h2>
+  <h2 class="text-xl font-bold mb-4">Registracija aa</h2>
   <div class="bg-white p-4 rounded-xl shadow-sm animate__animated animate__fadeIn">
-    <div class="space-y-2">
-      <input placeholder="Ime i prezime" class="w-full rounded-lg border p-2"
-             [ngModel]="name()" (ngModelChange)="name.set($event)" />
-      <input type="email" placeholder="Email" class="w-full rounded-lg border p-2"
-             [ngModel]="email()" (ngModelChange)="email.set($event)" />
-      <input type="tel" placeholder="Telefon (opciono)" class="w-full rounded-lg border p-2"
-             [ngModel]="phone()" (ngModelChange)="phone.set($event)" />
-      <input type="password" placeholder="Lozinka" class="w-full rounded-lg border p-2"
-             [ngModel]="password()" (ngModelChange)="password.set($event)" />
+    <form [formGroup]="form" (ngSubmit)="register()" class="space-y-3">
+      <!-- Username -->
+      <div>
+        <input formControlName="username" placeholder="Korisničko ime" class="w-full rounded-lg border p-2"
+               [class.border-red-500]="(controls().username.touched || submitAttempted()) && controls().username.invalid" />
+        <div class="text-xs text-red-600 mt-1" *ngIf="(controls().username.touched || submitAttempted()) && controls().username.errors">
+          <span *ngIf="controls().username.errors['required']">Korisničko ime je obavezno.</span>
+          <span *ngIf="controls().username.errors['minlength']">Najmanje 3 znaka.</span>
+          <span *ngIf="controls().username.errors['maxlength']">Najviše 30 znakova.</span>
+          <span *ngIf="controls().username.errors['pattern']">Dozvoljena slova, brojevi, tačka, crtica i donja crta.</span>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <input type="email" formControlName="email" placeholder="Email" class="w-full rounded-lg border p-2"
+               [class.border-red-500]="(controls().email.touched || submitAttempted()) && controls().email.invalid" />
+        <div class="text-xs text-red-600 mt-1" *ngIf="(controls().email.touched || submitAttempted()) && controls().email.errors">
+          <span *ngIf="controls().email.errors['required']">Email je obavezan.</span>
+          <span *ngIf="controls().email.errors['email']">Unesite ispravan email.</span>
+        </div>
+      </div>
+
+      <!-- First name / Last name -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div>
+          <input formControlName="firstName" placeholder="Ime" class="w-full rounded-lg border p-2"
+                 [class.border-red-500]="(controls().firstName.touched || submitAttempted()) && controls().firstName.invalid" />
+          <div class="text-xs text-red-600 mt-1" *ngIf="(controls().firstName.touched || submitAttempted()) && controls().firstName.errors">
+            <span *ngIf="controls().firstName.errors['required']">Ime je obavezno.</span>
+            <span *ngIf="controls().firstName.errors['minlength']">Najmanje 2 znaka.</span>
+            <span *ngIf="controls().firstName.errors['maxlength']">Najviše 50 znakova.</span>
+            <span *ngIf="controls().firstName.errors['pattern']">Dozvoljena slova, razmak i crtice.</span>
+          </div>
+        </div>
+        <div>
+          <input formControlName="lastName" placeholder="Prezime" class="w-full rounded-lg border p-2"
+                 [class.border-red-500]="(controls().lastName.touched || submitAttempted()) && controls().lastName.invalid" />
+          <div class="text-xs text-red-600 mt-1" *ngIf="(controls().lastName.touched || submitAttempted()) && controls().lastName.errors">
+            <span *ngIf="controls().lastName.errors['required']">Prezime je obavezno.</span>
+            <span *ngIf="controls().lastName.errors['minlength']">Najmanje 2 znaka.</span>
+            <span *ngIf="controls().lastName.errors['maxlength']">Najviše 50 znakova.</span>
+            <span *ngIf="controls().lastName.errors['pattern']">Dozvoljena slova, razmak i crtice.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <input type="password" formControlName="password" placeholder="Lozinka" class="w-full rounded-lg border p-2"
+               [class.border-red-500]="(controls().password.touched || submitAttempted()) && controls().password.invalid" />
+        <div class="text-xs text-red-600 mt-1" *ngIf="(controls().password.touched || submitAttempted()) && controls().password.errors">
+          <span *ngIf="controls().password.errors['required']">Lozinka je obavezna.</span>
+          <span *ngIf="controls().password.errors['minlength']">Najmanje 8 znakova.</span>
+        </div>
+      </div>
+
+      <!-- Global error -->
       <div *ngIf="error()" class="text-sm text-red-600">{{ error() }}</div>
-      <button (click)="register()" class="w-full px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold">Kreiraj nalog</button>
+
+      <!-- Submit -->
+      <button type="submit"
+              [disabled]="form.invalid || submitting()"
+              class="w-full px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-semibold">
+        <span *ngIf="!submitting()">Kreiraj nalog</span>
+        <span *ngIf="submitting()">Kreiranje...</span>
+      </button>
       <a routerLink="/profil" class="block text-center text-sm text-gray-600 hover:text-gray-800">Već imate nalog? Prijavite se</a>
-    </div>
+    </form>
   </div>
 </div>

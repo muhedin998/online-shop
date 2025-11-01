@@ -9,6 +9,6 @@ export interface Order {
   paid: boolean;
   shipped: boolean;
   createdAt: string; // ISO string
-  user?: Pick<User, 'id' | 'name' | 'email' | 'phone'>;
+  user?: Pick<User, 'id' | 'firstName' | 'email' | 'phone'>;
 }
 

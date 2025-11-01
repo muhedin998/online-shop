@@ -6,12 +6,15 @@ import { routes } from './app/app.routes';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeSr from '@angular/common/locales/sr';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './app/services/auth.interceptor';
 
 registerLocaleData(localeSr);
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideRouter(routes, withViewTransitions()),
     { provide: LOCALE_ID, useValue: 'sr-RS' }
   ]

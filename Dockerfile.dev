@@ -1,0 +1,32 @@
+# Dev container for Angular with hot reload
+# Usage:
+#   docker build -t shop-dev -f Dockerfile.dev .
+#   docker run --rm -it -p 4200:4200 \
+#     -v "$PWD:/app" -v /app/node_modules \
+#     -e CHOKIDAR_USEPOLLING=true -e WATCHPACK_POLLING=true \
+#     --name shop-dev shop-dev
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install system deps (optional, keeps image flexible)
+RUN apk add --no-cache bash
+
+# Install dependencies first for better caching
+COPY package*.json ./
+RUN npm ci
+
+# Copy the rest (won't be used when bind mounting, but helps first run)
+COPY . .
+
+EXPOSE 4200
+
+# Improve file watching in containers
+ENV CHOKIDAR_USEPOLLING=true \
+    WATCHPACK_POLLING=true \
+    NG_CLI_ANALYTICS=false
+
+# Start Angular dev server, listen on all interfaces
+CMD ["npm", "start", "--", "--host", "0.0.0.0", "--port", "4200", "--poll", "2000"]
+

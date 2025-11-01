@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./node_modules/@angular/cli/bin/ng.js serve --open",
+    "start": "node ./node_modules/@angular/cli/bin/ng.js serve --open --proxy-config proxy.conf.js",
     "build": "node ./node_modules/@angular/cli/bin/ng.js build",
     "lint": "node ./node_modules/@angular/cli/bin/ng.js lint"
   },

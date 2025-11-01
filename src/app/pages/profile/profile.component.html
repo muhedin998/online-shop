@@ -24,10 +24,14 @@
     <div class="bg-white p-4 rounded-xl shadow-sm animate__animated animate__fadeIn">
       <h3 class="font-semibold mb-3">Prijava</h3>
       <div class="space-y-2">
-        <input type="email" placeholder="Email" class="w-full rounded-lg border p-2"
-               [ngModel]="email()" (ngModelChange)="email.set($event)" />
+        <input type="text" placeholder="Korisničko ime ili email" class="w-full rounded-lg border p-2"
+               [ngModel]="username()" (ngModelChange)="username.set($event)" />
         <input type="password" placeholder="Lozinka" class="w-full rounded-lg border p-2"
                [ngModel]="password()" (ngModelChange)="password.set($event)" />
+        <label class="flex items-center gap-2 text-sm text-gray-700 select-none">
+          <input type="checkbox" [ngModel]="permanent()" (ngModelChange)="permanent.set($event)" />
+          Zapamti me
+        </label>
         <div *ngIf="error()" class="text-sm text-red-600">{{ error() }}</div>
         <button (click)="login()" class="w-full px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold">Prijavi se</button>
         <div class="text-center text-sm text-gray-600">Nemate nalog?</div>

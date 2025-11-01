@@ -23,7 +23,7 @@ export class OrderService {
       paid: method === 'now',
       shipped: false,
       createdAt: new Date().toISOString(),
-      user: user ? { id: user.id, name: user.name, email: user.email, phone: user.phone } : undefined,
+      user: user ? { id: user.id, firstName: user.firstName, email: user.email, phone: user.phone } : undefined,
     };
     const next = [order, ...this.ordersSig()];
     this.ordersSig.set(next);

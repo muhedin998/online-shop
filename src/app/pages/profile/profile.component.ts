@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LoginDtoModel } from '../../models/dtos/login-dto.model';
 
 @Component({
   selector: 'app-profile',
@@ -15,23 +16,37 @@ export class ProfileComponent {
   auth = inject(AuthService);
   private router = inject(Router);
 
-  email = signal('');
+  username = signal('');
   password = signal('');
+  permanent = signal(true);
   error = signal('');
 
   user = computed(() => this.auth.user());
 
   login() {
-    const ok = this.auth.login(this.email().trim(), this.password());
-    if (!ok) {
-      this.error.set('Neispravni podaci. Pokušajte ponovo.');
+    this.error.set('');
+    const credentials: LoginDtoModel = {
+      username: this.username().trim(),
+      password: this.password(),
+      permanent: this.permanent()
+    };
+    if (!credentials.username || !credentials.password) {
+      this.error.set('Unesite korisničko ime i lozinku.');
       return;
     }
-    const nav = this.router.parseUrl(this.router.url);
-    const redirect = nav.queryParams['redirect'] as string | undefined;
-    if (redirect) {
-      this.router.navigateByUrl('/' + redirect.replace(/^\/+/, ''));
-    }
+    this.auth.login(credentials).subscribe({
+      next: () => {
+        const nav = this.router.parseUrl(this.router.url);
+        const redirect = nav.queryParams['redirect'] as string | undefined;
+        if (redirect) {
+          this.router.navigateByUrl('/' + redirect.replace(/^\/+/, ''));
+        }
+      },
+      error: (err) => {
+        const msg = err?.error?.message || 'Neispravni podaci. Pokušajte ponovo.';
+        this.error.set(msg);
+      }
+    });
   }
 
   logout() {

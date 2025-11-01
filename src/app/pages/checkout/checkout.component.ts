@@ -45,6 +45,6 @@ export class CheckoutComponent {
       this.stock.adjust(it.product.id, -it.quantity);
     }
     this.cart.clear();
-    alert(`Porudžbina potvrđena! Hvala, ${user?.name || 'kupče'}! (#${order.id.slice(0,8)})`);
+    alert(`Porudžbina potvrđena! Hvala, ${user?.firstName || 'kupče'}! (#${order.id.slice(0,8)})`);
   }
 }
