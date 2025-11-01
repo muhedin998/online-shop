@@ -15,6 +15,5 @@ COPY . .
 # Angular dev server port
 EXPOSE 4201
 
-# Run Angular dev server on 0.0.0.0:4201
-CMD ["node", "./node_modules/@angular/cli/bin/ng.js", "serve", "--host", "0.0.0.0", "--port", "4201"]
-
+# Run Angular dev server on 0.0.0.0:4201 with Docker-specific proxy
+CMD ["node", "./node_modules/@angular/cli/bin/ng.js", "serve", "--host", "0.0.0.0", "--port", "4201", "--proxy-config", "proxy.docker.conf.json"]
